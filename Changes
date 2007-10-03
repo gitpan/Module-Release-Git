@@ -1,0 +1,4 @@
+0.10 - Wed Oct  3 04:58:27 2007
+	* Initial release - check the status of your Git repo
+	in Module::Release
+
