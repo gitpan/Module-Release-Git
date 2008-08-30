@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                Module-Release-Git
-version:             0.10_02
+version:             0.10_03
 abstract:            Use Git instead of CVS with Module::Release
 license:             perl
 author:              
