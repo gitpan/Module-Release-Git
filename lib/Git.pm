@@ -4,10 +4,11 @@ package Module::Release::Git;
 use strict;
 use warnings;
 use base qw(Exporter);
+use vars qw($VERSION);
 
 our @EXPORT = qw(check_cvs cvs_tag make_cvs_tag);
 
-our $VERSION = '0.10_08';
+$VERSION = '0.12';
 
 local $^W = 0;
 
@@ -18,12 +19,12 @@ Module::Release::Git - Use Git with Module::Release
 =head1 SYNOPSIS
 
 The release script automatically loads this module if it sees a 
-F<.git> directory. The module exports check_cvs, cvs_tag, and make_cvs_tag.
+F<.git> directory. The module exports check_vcs, vcs_tag, and make_vcs_tag.
 
 =head1 DESCRIPTION
 
 Module::Release::Git subclasses Module::Release, and provides
-its own implementations of the C<check_cvs()> and C<cvs_tag()> methods
+its own implementations of the C<check_vcs()> and C<vcs_tag()> methods
 that are suitable for use with a Subversion repository rather than a
 CVS repository.
 
@@ -34,13 +35,13 @@ This module depends on the external git binary (so far).
 
 =over 4
 
-=item check_cvs()
+=item check_vcs()
 
 Check the state of the Git repository.
 
 =cut
 
-sub check_cvs 
+sub check_vcs 
 	{
 	my $self = shift;
 	
@@ -62,17 +63,17 @@ sub check_cvs
 	return 1;
 	}
 
-=item cvs_tag(TAG)
+=item vcs_tag(TAG)
 
 Tag the release in local Git.
 
 =cut
 
-sub cvs_tag 
+sub vcs_tag 
 	{
 	my( $self, $tag ) = @_;
 	
-	$tag ||= $self->make_cvs_tag;
+	$tag ||= $self->make_vcs_tag;
 	
 	$self->_print( "Tagging release with $tag\n" );
 
@@ -83,7 +84,7 @@ sub cvs_tag
 	return 1;
 	}
 
-=item make_cvs_tag
+=item make_vcs_tag
 
 By default, examines the name of the remote file
 (i.e. F<Foo-Bar-0.04.tar.gz>) and constructs a tag string like
@@ -92,7 +93,7 @@ different tagging scheme, or don't even call it.
 
 =cut
 
-sub make_cvs_tag
+sub make_vcs_tag
 	{
 	no warnings 'uninitialized';
 	
