@@ -3,18 +3,19 @@ use ExtUtils::MakeMaker;
 
 require 5.006;
 
-eval "use Test::Manifest 1.14";
+eval "use Test::Manifest 1.21";
 
 WriteMakefile(
 	'NAME'	       => 'Module::Release::Git',
-	'ABSTRACT'     => 'Use Git with Module::Release',
+	'ABSTRACT'     => 'Use Git instead of CVS with Module::Release',
 	'VERSION_FROM' => 'lib/Git.pm',
 	'LICENSE'      => 'perl',
-	'AUTHOR'       => 'brian d foy <bdfoy@cpan.org>',
+	'AUTHOR'       => 'brian d foy <bdfoy@gmail.com>',
 	
 	'PREREQ_PM'    => { 
 		'Test::More'      => '0',
-		'Module::Release' => '2.01',
+		'Module::Release' => '0',
+		
 		},
 
 	'PM'           => {

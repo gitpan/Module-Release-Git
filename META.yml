@@ -1,21 +1,23 @@
 --- #YAML:1.0
 name:               Module-Release-Git
-version:            0.12
-abstract:           Use Git with Module::Release
+version:            0.12_01
+abstract:           Use Git instead of CVS with Module::Release
 author:
-    - brian d foy <bdfoy@cpan.org>
+    - brian d foy <bdfoy@gmail.com>
 license:            perl
 distribution_type:  module
 configure_requires:
     ExtUtils::MakeMaker:  0
+build_requires:
+    ExtUtils::MakeMaker:  0
 requires:
-    Module::Release:  2.01
+    Module::Release:  0
     Test::More:       0
 no_index:
     directory:
         - t
         - inc
-generated_by:       ExtUtils::MakeMaker version 6.48
+generated_by:       ExtUtils::MakeMaker version 6.50
 meta-spec:
     url:      http://module-build.sourceforge.net/META-spec-v1.4.html
     version:  1.4

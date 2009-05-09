@@ -1,16 +1,12 @@
-# $Id$
 package Module::Release::Git;
 
 use strict;
 use warnings;
 use base qw(Exporter);
-use vars qw($VERSION);
 
-our @EXPORT = qw(check_cvs cvs_tag make_cvs_tag);
+our @EXPORT = qw(check_vcs vcs_tag make_vcs_tag);
 
-$VERSION = '0.12';
-
-local $^W = 0;
+our $VERSION = '0.12_01';
 
 =head1 NAME
 
@@ -19,14 +15,14 @@ Module::Release::Git - Use Git with Module::Release
 =head1 SYNOPSIS
 
 The release script automatically loads this module if it sees a 
-F<.git> directory. The module exports check_vcs, vcs_tag, and make_vcs_tag.
+F<.git> directory. The module exports C<check_vcs>, C<vcs_tag>, and 
+C<make_vcs_tag>.
 
 =head1 DESCRIPTION
 
 Module::Release::Git subclasses Module::Release, and provides
 its own implementations of the C<check_vcs()> and C<vcs_tag()> methods
-that are suitable for use with a Subversion repository rather than a
-CVS repository.
+that are suitable for use with a Git repository.
 
 These methods are B<automatically> exported in to the callers namespace
 using Exporter.
@@ -134,7 +130,7 @@ brian d foy, C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2007-2008, brian d foy, All Rights Reserved.
+Copyright (c) 2007-2009, brian d foy, All Rights Reserved.
 
 You may redistribute this under the same terms as Perl itself.
 

@@ -1,11 +1,3 @@
-
-0.12 - Tue Nov 25 10:42:16 2008
-	* The method names now conform to Module::Release 2.01
-	(check_vcs instead of check_cvs, and so on).
-
-0.10_03 - Fri Aug 29 20:09:15 2008
-	* Fixed a bug in cvs_tag where nothing was tagged
-
 0.10_02 - Sat Aug  9 03:10:38 2008
 	* Clean up the module to work with the latest version of 
 	Module::Release.
@@ -13,4 +5,22 @@
 	I don't know what it exits with when it fails, so don't 
 	bother to check for the exit value right now.
 
+0.12_01 - Sat May  9 03:10:24 2009
+	* Some method name and doc fixes.
+
+0.10_08 - Sat Aug 30 20:28:47 2008
+	* bar:wq
+
+0.10_06 - Sat Aug 30 20:23:05 2008
+	* okay, this should really fix cvs_tag
+
+0.10_05 - Sat Aug 30 19:37:42 2008
+	* Oh, and I need to fix up some internals to match the
+	Changes in Module::Release
+
+0.10_04 - Sat Aug 30 19:35:34 2008
+	* Fix the disappearing tag in cvs_tag
+
+0.10_03 - Fri Aug 29 20:09:15 2008
+	* Fixed a bug in cvs_tag where nothing was tagged
 
