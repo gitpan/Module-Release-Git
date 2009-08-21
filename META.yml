@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Module-Release-Git
-version:            0.12_02
+version:            0.13
 abstract:           Use Git instead of CVS with Module::Release
 author:
     - brian d foy <bdfoy@gmail.com>
