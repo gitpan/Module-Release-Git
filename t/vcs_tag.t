@@ -2,12 +2,11 @@
 use strict;
 use vars qw($run_output);
 
-use Test::More 'no_plan';
+use Test::More;
 
 my $class  = 'Module::Release::Git';
-my $method = 'vcs_tag';
 
-use_ok( $class );
+use_ok( 'Module::Release' );
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 =pod
@@ -19,57 +18,92 @@ is passed to it.
 
 =cut
 
+subtest dummy_releaserc => sub {
+	if( -e 'releaserc' ) { return pass( "releaserc exists" ) }
+	my $fh;
+	unless( open $fh, '>', 'releaserc' ) {
+		return fail( "Could not create releaserc: $!" );
+		} 	
+	print { $fh } "cpan_user ADOPTME\n";
+	pass( "Created releaserc" );
+	};
+
+my $release = Module::Release->new;
+$release->load_mixin( $class );
+can_ok( $release, qw(make_vcs_tag vcs_tag) );
+
 {
-package Null;
-
-sub new { bless {}, __PACKAGE__ }
-sub AUTOLOAD { "" }
-
-package main;
+package Module::Release;
 no warnings qw(redefine once);
-*Module::Release::Git::run         = sub { $main::run_output = $_[1] };
-*Module::Release::Git::remote_file = sub { $_[0]->{remote_file} };
-*Module::Release::Git::_warn       = sub { 1 };
-*Module::Release::Git::_print      = sub { 1 };
+*run          = sub { $main::run_output = $_[1] };
+*remote_file  = sub { $_[0]->{remote_file} };
+*dist_version = sub { $_[0]->{dist_version} };
+*_warn        = sub { 1 };
+*_print       = sub { 1 };
+*_get_time    = sub { '137' };
 }
 
-my $release = bless {}, $class;
-can_ok( $release, $method );
+
+# Define our test cases.  'tag' is passed to ->vcs_tag, and 'expect'
+# is the tag we expect to get supplied to Git.  If remote_file is
+# specified, then this key and its value is inserted into the
+# $release object, emulating the release of a distro with that file
+# name.
+my @cases = (
+	{
+	desc        => 'an arbitrary tag argument', 
+	tag         => 'foo',
+	expect      => 'foo',
+	version     => undef,
+	},
+	
+	{
+	desc        => 'no tag info',
+	tag         => undef,
+	expect      => 'release-137',
+	version     => undef,
+	},
+	
+	{
+	desc        => 'two-number version',
+	tag         => undef, 
+	expect      => 'release-45.98',
+	version     => '45.98',
+	},
+	
+	{
+	desc        => 'two-number dev version',
+	tag         => undef, 
+	expect      => 'release-45.98_01',
+	version     => '45.98_01',
+	},
+
+	{
+	desc        => 'two-number dev version',
+	tag         => undef, 
+	expect      => 'release-v45.98_01',
+	version     => 'v45.98_01',
+	},
+);
+
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# Try it with an argument
-{
-my $tag = 'foo';
-ok( $release->$method( $tag ), "$method returns true (whoop-de-do!)" );
-is( $main::run_output, "git tag $tag", 
-	"Run output sees the right tag with an argument" );
-}
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# Try it with no argument, nothing in remote_file
-{
-ok( $release->$method( ), "Returns true (whoop-de-do!)" );
-is( $main::run_output, "git tag RELEASE__", 
-	"Run output sees the right tag with no argument, no remote" );
-}
+foreach my $case ( @cases ) {
+	$release->{dist_version} = $case->{version};
+	
+	my $s_version = $case->{version} // '<undef>'; #/
+	
+	is( eval{ $release->dist_version }, $case->{version}, 
+		"dist_version returns the right value for [$s_version}]" );
+	ok( $release->make_vcs_tag,
+			"$case->{desc}: make_vcs_tag returns true with $s_version" );
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# Try it with no argument, version in remote_file
-{
-$release->{remote_file} = 'Foo-Bar-45.98.tgz';
+	ok( $release->vcs_tag( $case->{tag} ), 'vcs_tag returns true' );
 
-ok( $release->$method(), "$method returns true (whoop-de-do!)" );
-is( $main::run_output, "git tag RELEASE_45_98", 
-	"Run output sees the right tag with no argument, remote set" );
-}
+	my $expected_cmd = "git tag $case->{expect}";
+	is( $main::run_output, $expected_cmd, "command is [$expected_cmd]" );
+	}
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# Try it with no argument, dev version in remote_file
-{
-$release->{remote_file} = 'Foo-Bar-45.98_01.tgz';
-
-ok( $release->$method(), "$method returns true (whoop-de-do!)" );
-is( $main::run_output, "git tag RELEASE_45_98_01", 
-	"Run output sees the right tag with no argument, remote set" );
-}
+done_testing();

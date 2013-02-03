@@ -1,8 +1,7 @@
 Changes for Module::Release::Git
 
-0.14 - Tue Sep 22 22:12:57 2009
-	* Extract the branch name correctly. Gotta pay attention
-	to that assignment context!
+0.16 - Sat Feb  2 19:21:35 2013
+	* A less restrictive git status match
 
 0.13 - Fri Aug 21 11:32:16 CDT 2009
 	* The same as 0.12_02, but as a full release
