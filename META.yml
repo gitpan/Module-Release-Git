@@ -2,9 +2,13 @@
 abstract: 'Use Git instead of CVS with Module::Release'
 author:
   - 'brian d foy <bdfoy@cpan.org>'
-build_requires: {}
+build_requires:
+  ExtUtils::MakeMaker: 0
+  Test::More: 0.98
+configure_requires:
+  ExtUtils::MakeMaker: 6.64
 dynamic_config: 1
-generated_by: 'ExtUtils::MakeMaker version 6.66, CPAN::Meta::Converter version 2.120921'
+generated_by: 'ExtUtils::MakeMaker version 6.86, CPAN::Meta::Converter version 2.120921'
 keywords:
   - workflow
   - module
@@ -22,6 +26,8 @@ no_index:
   directory:
     - t
     - inc
+requires:
+  Module::Release: 2.06
 resources:
   repository: https://github.com/briandfoy/module-release-git
-version: 0.19
+version: 0.20
